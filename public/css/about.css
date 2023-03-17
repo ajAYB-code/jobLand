@@ -1,0 +1,20 @@
+
+.section-leader
+{
+    color: var(--color-primary-dark);
+}
+
+img.company-image
+{
+    border-radius: 20px;
+    box-shadow: 25px 25px 0px orange;
+}
+.team .team-member-card img.member-image
+{
+    height: 400px;
+    object-fit: cover;
+}
+.team .team-member-card .full-name
+{
+   color: var(--color-primary-dark);
+}

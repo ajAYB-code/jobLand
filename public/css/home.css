@@ -1,0 +1,28 @@
+
+/* Hero */
+
+section.hero .hero-inner
+{
+   height: 55vh;
+   border-radius: 20px;
+   padding-top: 11rem !important;
+   background-image: url('/images/man-working-night.jpg');
+   background-size: cover;
+   background-position: top -60px left 0px;
+}
+section.hero .search-container button.find-job-btn
+{
+  background-color: var(--color-primary);
+  color: white;
+  box-shadow: none;
+}
+
+/* Main */
+
+/* Filters */
+
+.filters-container:has(.collapse-menu.show) button#collapseToggleBtn i
+{
+   transition: all .05s ease;
+   transform: rotate(180deg);
+}
