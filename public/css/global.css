@@ -1,0 +1,149 @@
+
+/* Navbar */
+
+.navbar .navbar-nav .nav-link
+{
+    color: rgb(202, 163, 114);
+}
+.navbar  :is(.navbar-brand, .navbar-nav :is(.nav-link.active, .nav-link:hover), .user-name)
+{
+   color: var(--color-primary);
+}
+.navbar  :is(.navbar-brand, .navbar-nav :is(.nav-link.active, .nav-link:hover))
+{
+   color: var(--color-primary);
+}
+
+:root
+{
+    --color-primary:rgb(252, 165, 5);
+    --color-primary-dark:rgb(212, 116, 5);
+}
+
+/* Containers with min height */
+.min-h-100
+{
+  min-height: 100vh;
+}
+
+/* Jobs table */
+
+table tr td
+{
+   vertical-align: middle;
+   padding: .7rem 20px!important;
+}
+table .keywords a.keyword
+{
+   color: black;
+   text-decoration: none;
+   font-size: 12px;
+   padding: 5px;
+   border-radius: 3px;
+}
+
+/* Company logo image */
+
+table .company-logo
+{
+   height: 30px;
+   width: 40px;
+}
+table .company-logo > img
+{
+   height: 100%;
+   width: 100%;
+   object-fit: contain;
+}
+
+/* Job role */
+table .job-role
+{
+   white-space: nowrap;
+   max-width: 200px;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+table#jobsTable tr
+{
+   cursor: pointer;
+}
+table#jobsTable tr td:first-child
+{
+   border-top-left-radius: 20px;
+   border-bottom-left-radius: 20px;
+}
+table#jobsTable tr td:last-child
+{
+   border-top-right-radius: 20px;
+   border-bottom-right-radius: 20px;
+}
+table#jobsTable :is(tr, tr .keywords .keyword)
+{
+   transition: all .5s ease;
+}
+table#jobsTable tr:hover
+{
+   background-color: rgb(252, 238, 211);
+}
+table#jobsTable tr:hover .keywords .keyword
+{
+   background-color: white;
+}
+
+
+table#jobsTable tr td p
+{
+   font-size: 14px;
+}
+
+table#jobsTable .keywords a.keyword
+{
+   text-decoration: none;
+   color: rgb(27, 27, 27);
+   font-size: 12px;
+   padding: 5px;
+   border-radius: 3px;
+   background-color: rgb(248, 234, 217);
+}
+table#jobsTable tr td p.job-post-date
+{
+   color: grey;
+}
+
+/* Favorite job button */
+table#jobsTable button.favoriteJobBtn.active > i
+{
+   color: rgb(248, 108, 15);
+}
+
+
+/* Forms */
+/* Input error */
+.input-error
+{
+   font-size: 13px;
+   color: red;
+}
+.input-info
+{
+   font-size: 13px;
+   color: grey;
+}
+
+/* Footer */
+
+footer
+{
+   padding: 30px 0px;
+   background-color: rgb(255, 232, 189);
+}
+footer a.link
+{
+  color: rgb(148, 148, 148);
+  transition: all .3s ease;
+}
+footer a.link:is(a.active, a:hover)
+{
+  color: var(--color-primary);
+}
