@@ -1,5 +1,5 @@
 <h1>jobLand</h1>
-<p>A job finder website built with <i>laravel</i></p>
+<p>A job finder website built with <i>laravel 8</i></p>
 <br>
 <p><b>Features</b></p>
 <ul>
@@ -30,4 +30,27 @@
     <li>
         Create/delete job for recruiters
     </li>
+</ul>
+<br>
+<p><b>Technologies</b></p>
+<ul>
+<li>
+Frontend
+<ul>
+<li>Bootstrap</li>
+<li>Jquery</li>
+</ul>
+</li>
+<li>
+Backend
+<ul>
+<li>Laravel</li>
+</ul>
+</li>
+<li>
+Database
+<ul>
+<li>Mysql</li>
+</ul>
+</li>
 </ul>
