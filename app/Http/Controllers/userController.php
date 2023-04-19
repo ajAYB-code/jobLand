@@ -29,6 +29,7 @@ class userController
 
     public function handleLogin(Request $request) {
 
+        // dd($request->all());
       $formData = $request->validate(
         [
             'email' => ['required', 'email'],
