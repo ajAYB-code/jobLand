@@ -1,23 +1,7 @@
 
-body
-{
-    height: 100vh;
-}
-
 .navbar .navbar-brand
 {
     color: var(--color-primary);
-}
-.img-wrapper
-{
-    background-image: url('/images/pexels-karolina-grabowska-4467687.jpg');
-    background-size: cover;
-    background-position: center;
-}
-form button.login-btn
-{
-    background-color: var(--color-primary-dark);
-    border: none;
 }
 form :is(button.login-btn:hover, button.login-btn:active)
 {

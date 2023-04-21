@@ -18,6 +18,7 @@
 {
     --color-primary:rgb(252, 165, 5);
     --color-primary-dark:rgb(212, 116, 5);
+    --green: green;
 }
 
 /* Containers with min height */
@@ -40,6 +41,24 @@ table .keywords a.keyword
    font-size: 12px;
    padding: 5px;
    border-radius: 3px;
+}
+
+/* Left side image used in (login/signup..) pages */
+
+.img-wrapper
+{
+    background-image: url('/images/pexels-karolina-grabowska-4467687.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Buttons */
+/* Primary dark button */
+
+/* 100 vh body height */
+.body-100
+{
+   height: 100vh;
 }
 
 /* Company logo image */

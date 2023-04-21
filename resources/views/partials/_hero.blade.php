@@ -11,7 +11,7 @@
                        <span for="" class="input-group-text bg-transparent border-0">
                         <i class="fa fa-search-location"></i>
                        </span>
-                        <input type="text" name="location" value="{{request()->location}}" id="" class="form-control form-control-plaintext rounded-0" placeholder="Location: United states.."> 
+                        <input type="text" name="location" value="{{request()->location}}" id="" class="form-control form-control-plaintext shadow-none border-0 rounded-0" placeholder="Location: United states.."> 
                     </div>
                 </div>
                 <div class="col-6">
@@ -19,11 +19,15 @@
                        <span for="" class="input-group-text bg-transparent border-0">
                         <i class="fa fa-search"></i>
                        </span>
-                        <input type="text" name="search_for"  value="{{request()->search_for}}" id="" class="form-control form-control-plaintext rounded-0" placeholder="Title: Junior laravel developer.."> 
+                        <input type="text" name="search_for"  value="{{request()->search_for}}" id="" class="form-control form-control-plaintext shadow-none border-0 rounded-0" placeholder="Title: Junior laravel developer.."> 
                     </div>
                 </div>
-                <div class="col-3">
-                    <button class="find-job-btn btn btn-lg ms-auto d-block rounded-pill">Find job</button>
+                <div class="col-3 text-end">
+                    <x-primary-button class="find-job-btn btn-lg rounded-pill">
+                        <x-slot name='content'>
+                            Find job
+                        </x-slot>
+                    </x-primary-button>
                 </div>
             </div>
         </form>

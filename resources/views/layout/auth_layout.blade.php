@@ -12,7 +12,7 @@
     @yield('pageHead')
 
 </head>
-<body>
+<body class="body-100">
     <div class="container-fluid h-100">
         <div class="row h-100">
 

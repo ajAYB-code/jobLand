@@ -9,7 +9,7 @@
 @section('navbar')
 <x-auth.navbar>
     <x-slot name='navbarRight'>
-        <h6>Not a memeber yet, <a href="/signup">Signup</a></h6>
+        <h6>Not a member yet, <a href="{{ route('signup') }}">Signup</a></h6>
     </x-slot>
 </x-auth.navbar>
 @endsection
@@ -36,7 +36,14 @@
             <p style="color: red;">{{$message}}</p>
             @enderror
         </div>
-        <button class="login-btn btn btn-primary">Login</button>
+        <div class="d-flex justify-content-between">
+            <x-primary-button>
+                <x-slot name='content'>
+                    Login
+                </x-slot>
+            </x-primary-button>
+            <a href="{{ route('forgot_password') }}">Forgot your password?</a>
+        </div>
     </form>
 </div>
 @endsection

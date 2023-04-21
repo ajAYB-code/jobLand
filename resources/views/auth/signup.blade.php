@@ -10,7 +10,7 @@
 @section('navbar')
 <x-auth.navbar>
     <x-slot name='navbarRight'>
-        <h6>Already a member, <a href="/login">Login</a></h6>
+        <h6>Already a member, <a href="{{ route('login') }}">Login</a></h6>
     </x-slot>
 </x-auth.navbar>
 @endsection
@@ -68,7 +68,11 @@
                 </div>
             </div>
         </div>
-        <button class="signup-btn btn btn-primary">Signup</button>
+        <x-primary-button>
+            <x-slot name='content'>
+                Signup
+            </x-slot>
+        </x-primary-button>
     </form>
 </div>
 @endsection

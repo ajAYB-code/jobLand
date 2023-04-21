@@ -11,8 +11,11 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rule;
+use Swift_TransportException;
 
 class userController
 {
@@ -39,10 +42,10 @@ class userController
 
         if(Auth::attempt($formData))
         {
-            return redirect()->intended('/');
+            return redirect()->intended(route('home'));
         }
 
-        return redirect('/login')->withErrors(['formError' => 'Your data is not valid']);
+        return redirect(route('login'))->withErrors(['formError' => 'Your data is not valid']);
     }
 
     /*
@@ -70,7 +73,7 @@ class userController
 
         // Create new user
         User::create($formData);
-        return redirect('/login');
+        return redirect(route('login'));
     }
 
     /*
@@ -81,10 +84,76 @@ class userController
 
     public function logout() {
        Auth::logout();
-       return redirect('/');
+       return redirect(route('home'));
     }
 
     
+    /*
+    ----------------------------------
+    |             Forgot password    |
+    ---------------------------------- 
+    */  
+
+    public function showForgotPassword(){
+        return view('auth.password_forgot');
+    }
+
+    public function handleForgotPassword(Request $request){
+        $request->validate([
+            'email' => ['required', 'email']
+        ]);
+
+        $status = Password::sendResetLink(
+                $request->only('email')
+        );
+
+        // dd($status);
+
+        if($status === Password::RESET_LINK_SENT)
+        {
+           return back()->with(['status' => __($status)]);
+        }
+
+        return back()->withErrors(['error' => __($status)]);
+        
+    }
+
+    /*
+    ----------------------------------
+    |             Reset password     |
+    ---------------------------------- 
+    */
+
+    public function showResetPassword(){
+        return view('auth.reset_password');
+    }
+
+    public function handleResetPassword(Request $request){
+        $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['min:8', 'confirmed']
+        ]);
+
+        $status = Password::reset(
+            $request->only('token', 'email', 'password', 'password_confirmation'),
+            function ($user, $password){
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ]);
+
+                $user->save();
+            }
+        );
+
+        if($status === Password::PASSWORD_RESET)
+        {
+            return redirect()->route('login');
+        }
+
+        return back()->withErrors(['error' => __($status)]);
+    }
+
     /*
     ----------------------------------
     |             account              |
@@ -124,7 +193,7 @@ class userController
                     $user->{$key} = $value;
                 }
                 $user->save();
-                return redirect('user/account');
+                return redirect(route('user_account'));
             }
     }
 

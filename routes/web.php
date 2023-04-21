@@ -30,18 +30,21 @@ Route::middleware('auth')->group(function () {
 
     /* Create job */
 // Show
-Route::get('/jobs/create', [JobController::class, 'showCreateJob'])->name('/jobs/create');
+Route::get('/jobs/create', [JobController::class, 'showCreateJob'])
+        ->name('new_job');
 // Handle
 Route::post('/jobs/create', [JobController::class, 'handleCreateJob']);
 
     /* user created jobs */
-Route::get('/user/jobs/created', [userController::class, 'showCreatedJobs']);
+Route::get('/user/jobs/created', [userController::class, 'showCreatedJobs'])
+        ->name('user_created_jobs');
 // Delete user created job
 Route::post('/user/jobs/created/delete', [userController::class, 'deleteJob']);
 
     /* user favorited jobs */
 // Show
-Route::get('/user/jobs/favorited', [userController::class, 'showFavoritedJobs']);
+Route::get('/user/jobs/favorited', [userController::class, 'showFavoritedJobs'])
+        ->name('user_favorited_jobs');
 // Add
 Route::post('/user/jobs/favorited/add', [userController::class, 'addFavoritedJob']);
 // Delete
@@ -56,11 +59,13 @@ Route::post('/job/apply', [userController::class, 'applyToJobAjax']);
 Route::controller(JobController::class)->group(function() {
 
     /* Home page */ 
- Route::get('/', 'index')->name('home');
+ Route::get('/', 'index')
+        ->name('home');
  
     /* single job page */
 // Show
-Route::get('/jobs/{id}', 'show');
+Route::get('/jobs/{id}', 'show')
+        ->name('show_job');
 });
 
 
@@ -75,7 +80,8 @@ Route::controller(userController::class)->group(function () {
 
   /* Signup page */
 // Show
-Route::get('/signup','showSignup');
+Route::get('/signup','showSignup')
+        ->name('signup');
 // Handle
 Route::post('/signup', 'handleSignup');
 
@@ -87,13 +93,29 @@ Route::get('/login', 'showLogin')
 Route::post('/login', 'handleLogin');
 
  /* Logout */
-Route::get('/logout', 'logout');
+Route::get('/logout', 'logout')
+        ->name('logout');
 
  /* User account */
 // Show
-Route::get('/user/account', 'showAccount');
+Route::get('/user/account', 'showAccount')
+        ->name('user_account');
 // Handle
 Route::post('/user/account', 'handleAccountInfoChange');
+
+/* Send password reset */
+// Show
+Route::get('/forgot_password', 'showForgotPassword')
+        ->name('forgot_password');
+// Handle
+Route::post('/forgot_password', 'handleForgotPassword');
+
+/* Reset password */
+// Show
+Route::get('/reset_password', 'showResetPassword')
+        ->name('password.reset');
+// Handle
+Route::post('/reset_password', 'handleResetPassword');
 
 });
 

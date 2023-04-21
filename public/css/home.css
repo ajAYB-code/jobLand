@@ -10,12 +10,7 @@ section.hero .hero-inner
    background-size: cover;
    background-position: top -60px left 0px;
 }
-section.hero .search-container button.find-job-btn
-{
-  background-color: var(--color-primary);
-  color: white;
-  box-shadow: none;
-}
+
 
 /* Main */
 

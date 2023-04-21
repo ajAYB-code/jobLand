@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Document</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <link rel="stylesheet" href="{{asset('css/global.css')}}">
 
     {{-- Custom page CSS --}}
@@ -22,18 +22,18 @@
 
         <nav class="navbar navbar-expand-sm py-4">
             <div class="container">
-                    <a href="/" class="navbar-brand">
+                    <a href="{{ route('home') }}" class="navbar-brand">
                         <h4>jobLand</h4>
                     </a>
                 <ul class="navbar-nav gap-4 ms-5 me-auto">
                    <li class="nav-item">
-                    <a href="/" class="{{request()->is('/') ? 'active' : ''}} nav-link">Find jobs</a>
+                    <a href="{{ route('home') }}" class="{{request()->is('/') ? 'active' : ''}} nav-link">Find jobs</a>
                    </li>
                    <li class="nav-item">
                     <a href="/jobs/create" class="{{request()->is('jobs/create') ? 'active' : ''}} nav-link">Create job</a>
                    </li>
                    <li class="nav-item">
-                    <a href="/about" class="{{request()->is('about') ? 'active' : ''}} nav-link">About us</a>
+                    <a href="{{ route('about') }}" class="{{request()->is('about') ? 'active' : ''}} nav-link">About us</a>
                    </li>
                 </ul>
                 
@@ -59,10 +59,10 @@
                             <i class="fa fa-user"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a href="/user/account" class="dropdown-item">Account</a>
-                            <a href="/user/jobs/created" class="dropdown-item">My jobs</a>
-                            <a href="/user/jobs/favorited" class="dropdown-item">Favorites</a>
-                            <a href="/logout" class="dropdown-item">Logout</a>
+                            <a href="{{ route('user_account') }}" class="dropdown-item">Account</a>
+                            <a href="{{ route('user_created_jobs') }}" class="dropdown-item">My jobs</a>
+                            <a href="{{ route('user_favorited_jobs') }}" class="dropdown-item">Favorites</a>
+                            <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -70,8 +70,12 @@
                 @else
 
                 <div class="action-btns">
-                    <a href="/signup" class="btn btn-outline-secondary">Signup</a>
-                    <a href="/login" class="btn" style="background-color: var(--color-primary); color: white;">Login</a>
+                    <a href="{{ route('signup') }}" class="btn btn-outline-secondary">Signup</a>
+                    <x-primary-button href="{{ route('login') }}">
+                        <x-slot name='content'>
+                            Login
+                        </x-slot>
+                    </x-primary-button>
                 </div>
                 @endauth
 
@@ -95,9 +99,9 @@
                 </div>
                 <div class="col-4">
                     <div class="links d-flex gap-5">
-                        <a href="/" class="{{request()->is('/') ? 'active' : ''}} link text-decoration-none ">Jobs</a>
+                        <a href="{{ route('home') }}" class="{{request()->is('/') ? 'active' : ''}} link text-decoration-none ">Jobs</a>
                         <a href="/jobs/create" class="{{request()->is('jobs/create') ? 'active' : ''}} link text-decoration-none">Upload job</a>
-                        <a href="/about" class="{{request()->is('about') ? 'active' : ''}} link text-decoration-none">About us</a>
+                        <a href="{{ route('about') }}" class="{{request()->is('about') ? 'active' : ''}} link text-decoration-none">About us</a>
                     </div>
                 </div>
             </div>
