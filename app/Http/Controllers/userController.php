@@ -6,6 +6,7 @@ use App\Models\favoritedJobs;
 use App\Models\Job;
 use App\Mail\jobApply;
 use App\Models\User;
+use Facade\FlareClient\Http\Response as HttpResponse;
 use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
@@ -88,6 +89,34 @@ class userController
     }
 
     
+    /*
+    ----------------------------------
+    |             Contact Us         |
+    ---------------------------------- 
+    */
+
+    public function handleContactUs(Request $request){
+
+        $request->validate([
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'subject' => ['nullable'],
+            'email' => ['required', 'email'],
+            'message' => ['required']
+        ]);
+
+        Mail::send('email.contactUs',
+                    ['msg' => $request->all()['message']],
+                    function ($mail) use ($request){
+                        $mail->to(env('MAIL_CONTACT_USERNAME'));
+                        $mail->from($request->email);
+                        $mail->subject($request->subject);
+                    }
+                );
+        
+        
+    }
+
     /*
     ----------------------------------
     |             Forgot password    |

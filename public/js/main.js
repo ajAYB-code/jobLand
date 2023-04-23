@@ -233,3 +233,53 @@ function setSendButtonState(state) {
     $('.sendCvBtn').attr('disabled', '');
    }
 }
+
+// Contact Us
+
+$('#contactUsBtn').click(function (){
+
+  $(this).addClass('is-loading')
+
+  // Clear previous errors
+  $('.input-error').each(function (){
+    $(this).text('');
+  })
+
+  $.ajax({
+    type: 'post',
+    url: `http://127.0.0.1:8000/about/contact_us`,
+    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    data: new FormData($('#contactForm').get(0)),
+    success: function (data) {
+      $('#contactUsBtn').removeClass('is-loading');
+
+      $('.contact-box .alert-box')
+      .attr('class', 'alert-box alert alert-success')
+      .text('Email sent successfully');
+    },
+    error: function (err) {
+      $('#contactUsBtn').removeClass('is-loading');
+
+      if(err.status == 422)
+      {
+        // It is a form validation errors
+        // Show errors
+
+        const inputErrors = err.responseJSON.errors;
+
+       $.each(inputErrors, function (key, value){
+          $(`.input-error[data-input='${key}']`).text(value[0]);
+        })
+
+      }
+      else {
+        $('.contact-box .alert-box')
+        .attr('class', 'alert-box alert alert-danger')
+        .text('Error sending the email');
+      }
+    },
+    contentType: false,
+    processData: false
+  })
+
+})

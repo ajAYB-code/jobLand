@@ -96,6 +96,9 @@ Route::post('/login', 'handleLogin');
 Route::get('/logout', 'logout')
         ->name('logout');
 
+/* Contact Us */
+Route::post('/about/contact_us', 'handleContactUs');
+
  /* User account */
 // Show
 Route::get('/user/account', 'showAccount')

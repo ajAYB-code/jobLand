@@ -18,3 +18,21 @@ img.company-image
 {
    color: var(--color-primary-dark);
 }
+
+/* Contact Us */
+.contact-box
+{
+    background-color: var(--color-primary);
+}
+/* Contact button loader */
+#contactUsBtn.is-loading
+{
+    background-color: white;
+    color: white;
+    border-color: white;
+    pointer-events: none;
+}
+#contactUsBtn.is-loading + #contactBtnLoader
+{
+    display: block !important;
+}
