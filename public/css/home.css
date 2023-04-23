@@ -5,12 +5,19 @@ section.hero .hero-inner
 {
    height: 55vh;
    border-radius: 20px;
-   padding-top: 11rem !important;
    background-image: url('/images/man-working-night.jpg');
    background-size: cover;
    background-position: top -60px left 0px;
 }
-
+section.hero .hero-inner .hero-inner-content
+{
+   bottom: 10%;
+}
+.hero-leader
+{
+  width: 250px;
+  line-height: 45px;
+}
 
 /* Main */
 
