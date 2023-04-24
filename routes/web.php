@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\PasswordRecoveryController;
 use App\Http\Controllers\userController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Routing\RouteGroup;
@@ -53,6 +56,7 @@ Route::post('/user/jobs/favorited/remove', [userController::class, 'removeFavori
 /* Apply to job */
 Route::get('/jobs/{id}/apply', [userController::class, 'applyToJob']);
 Route::post('/job/apply', [userController::class, 'applyToJobAjax']);
+
 });
 
 // Job controller
@@ -85,41 +89,12 @@ Route::get('/signup','showSignup')
 // Handle
 Route::post('/signup', 'handleSignup');
 
- /* Login page */
-// Show
-Route::get('/login', 'showLogin')
-        ->name('login');
-// Handle
-Route::post('/login', 'handleLogin');
-
- /* Logout */
-Route::get('/logout', 'logout')
-        ->name('logout');
-
-/* Contact Us */
-Route::post('/about/contact_us', 'handleContactUs');
-
  /* User account */
 // Show
 Route::get('/user/account', 'showAccount')
         ->name('user_account');
 // Handle
 Route::post('/user/account', 'handleAccountInfoChange');
-
-/* Send password reset */
-// Show
-Route::get('/forgot_password', 'showForgotPassword')
-        ->name('forgot_password');
-// Handle
-Route::post('/forgot_password', 'handleForgotPassword');
-
-/* Reset password */
-// Show
-Route::get('/reset_password', 'showResetPassword')
-        ->name('password.reset');
-// Handle
-Route::post('/reset_password', 'handleResetPassword');
-
 });
 
 Route::get('/about', function () {
@@ -127,6 +102,31 @@ Route::get('/about', function () {
 })->name('about');
 
 
+/* Auth */
+
+Route::controller(AuthController::class)->group(function (){
+
+        Route::get('/login', 'showLogin')
+                ->name('login');
+        Route::post('/login', 'handleLogin');
+        Route::get('/logout', 'logout')
+                ->name('logout');
+});
+
+/* Password Recovery */
+
+Route::controller(PasswordRecoveryController::class)->group(function (){
+        Route::get('/forgot_password', 'showForgotPassword')
+                ->name('forgot_password');
+        Route::post('/forgot_password', 'handleForgotPassword');
+        Route::get('/reset_password', 'showResetPassword')
+                ->name('password.reset');
+        Route::post('/reset_password', 'handleResetPassword');
+});
+
+/* Contact Us */
+
+Route::post('/about/contact_us', ContactController::class);
 
 
 
