@@ -64,114 +64,20 @@ class userController
             [
                 'firstName' => ['required'],
                 'lastName' => ['required'],
-                'email' => ['required', 'email'],
+                'email' => ['required', 'email', Rule::unique('users', 'email')],
             ]
             );
 
-            // Check if there is any change
-            $dataChanged = false;
-            foreach($formData as $key => $value)
-            {
-                if(Auth::user()->{$key} !== $value)
-                {
-                    $dataChanged = true;
-                    break;
-                }
-            }
+            $user = User::find(Auth::user()->id);
+            $user->forceFill($formData);
+            $user->save();
 
-            if($dataChanged == true)
-            {
-                $userDetails = Auth::user();
-                $user = User::find($userDetails->id);
-                foreach($formData as $key => $value)
-                {
-                    $user->{$key} = $value;
-                }
-                $user->save();
-                return redirect(route('user_account'));
-            }
+            return redirect(route('login'));
     }
 
-    /*
-    ----------------------------------
-    |             created jobs       |
-    ---------------------------------- 
-    */  
+      
 
-    public function showCreatedJobs() {
-        $userId = Auth::user()->id;
-        $jobs = Job::where('userId', $userId)
-                    ->get();
   
-        return view('user.created_jobs', [
-            'jobs' => $jobs
-        ]);
-    }
-
-    public function deleteJob(Request $request) {
-        
-        $jobId = $request->id;
-        Job::where('id', $jobId)->delete();
-    
-        return Response()->json();
-    }    
-
-        /*
-    ----------------------------------
-    |             Favorited jobs       |
-    ---------------------------------- 
-    */  
-
-    public function showFavoritedJobs() {
-        $userId = Auth::user()->id;
-        $jobsIds = favoritedJobs::select('jobId')->where('userId', $userId)
-                                ->get();
-        $jobs = Job::whereIn('id', $jobsIds)
-                    ->get();
-  
-        return view('user.favorited_jobs', [
-            'jobs' => $jobs
-        ]);
-    }
-
-    public function addFavoritedJob(Request $request) {
-        
-        $jobId = $request->id;
-        
-        // Check if the job exist in the database
-        $job = Job::find($jobId);
-
-        if(empty($job))
-        {
-            return Response()->json(
-                [
-                    "error" => "job doesn't exist"
-                ]
-            );
-        }
-
-        $userId = Auth::user()->id;
-        favoritedJobs::create([
-            'userId' => $userId,
-            'jobId' => $jobId
-        ]);
-        return Response()->json();
-    }
-
-    public function removeFavoritedJob(Request $request) {
-        
-        $jobId = $request->id;
-        $userId = Auth::user()->id;
-        favoritedJobs::where(
-            [
-                ['userId', '=', $userId],
-                ['jobId', '=', $jobId]
-            ]
-        )->delete();
-    
-        return Response()->json();
-    }
-
     /* 
     --------------------------------
     |          Apply to job        |

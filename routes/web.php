@@ -2,10 +2,14 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FavoriteJobController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PasswordRecoveryController;
+use App\Http\Controllers\RecruiterController;
 use App\Http\Controllers\userController;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Models\Job;
+use App\Models\User;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
@@ -31,45 +35,55 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
 
-    /* Create job */
-// Show
-Route::get('/jobs/create', [JobController::class, 'showCreateJob'])
-        ->name('new_job');
-// Handle
-Route::post('/jobs/create', [JobController::class, 'handleCreateJob']);
+        /* Job crud */
 
-    /* user created jobs */
-Route::get('/user/jobs/created', [userController::class, 'showCreatedJobs'])
-        ->name('user_created_jobs');
-// Delete user created job
-Route::post('/user/jobs/created/delete', [userController::class, 'deleteJob']);
+        Route::controller(JobController::class)->group(function (){
+                Route::get('/jobs/create', 'showCreateJob')
+                        ->name('new_job');
+                Route::post('/jobs/create', 'create');
 
-    /* user favorited jobs */
-// Show
-Route::get('/user/jobs/favorited', [userController::class, 'showFavoritedJobs'])
-        ->name('user_favorited_jobs');
-// Add
-Route::post('/user/jobs/favorited/add', [userController::class, 'addFavoritedJob']);
-// Delete
-Route::post('/user/jobs/favorited/remove', [userController::class, 'removeFavoritedJob']);
+                Route::get('/job/{jobId}/edit', 'edit')
+                        ->name('job.edit');        
+                Route::post('/job/{jobId}/edit', 'update');   
+                Route::post('/job/{jobId}/delete', 'delete');   
+        });
+      
+        
+        Route::get('/user/jobs/created', [RecruiterController::class, 'showCreatedJobs'])
+                ->name('user_created_jobs');
 
-/* Apply to job */
-Route::get('/jobs/{id}/apply', [userController::class, 'applyToJob']);
-Route::post('/job/apply', [userController::class, 'applyToJobAjax']);
+        /* Favorite job */
 
+        Route::controller(FavoriteJobController::class)->group(function (){
+                Route::get('/user/favorited_jobs', 'index')
+                        ->name('user_favorited_jobs');
+                Route::post('/user/jobs/favorited/add','addFavorite');
+                Route::post('/user/jobs/favorited/remove', 'removeFavorite');
+        });
+
+        
+        Route::controller(userController::class)->group(function (){
+
+                /* User account */
+
+                Route::get('/user/account', 'showAccount')
+                        ->name('user_account');
+                Route::post('/user/account', 'handleAccountInfoChange');
+
+                /* Apply to job */
+
+                Route::get('/jobs/{id}/apply', 'applyToJob');
+                Route::post('/job/apply', 'applyToJobAjax');
+        });
+     
 });
 
-// Job controller
-Route::controller(JobController::class)->group(function() {
 
-    /* Home page */ 
- Route::get('/', 'index')
-        ->name('home');
- 
-    /* single job page */
-// Show
-Route::get('/jobs/{id}', 'show')
-        ->name('show_job');
+Route::controller(JobController::class)->group(function() {
+        Route::get('/', 'index')
+                ->name('home');
+        Route::get('/jobs/{id}', 'show')
+                ->name('show_job');
 });
 
 
@@ -82,19 +96,11 @@ Route::get('/jobs/{id}', 'show')
 
 Route::controller(userController::class)->group(function () {
 
-  /* Signup page */
-// Show
 Route::get('/signup','showSignup')
         ->name('signup');
-// Handle
 Route::post('/signup', 'handleSignup');
 
- /* User account */
-// Show
-Route::get('/user/account', 'showAccount')
-        ->name('user_account');
-// Handle
-Route::post('/user/account', 'handleAccountInfoChange');
+
 });
 
 Route::get('/about', function () {
@@ -123,6 +129,8 @@ Route::controller(PasswordRecoveryController::class)->group(function (){
                 ->name('password.reset');
         Route::post('/reset_password', 'handleResetPassword');
 });
+
+
 
 /* Contact Us */
 

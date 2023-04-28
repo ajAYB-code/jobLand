@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\VarDumper\VarDumper;
 
 class Job extends Model
 {
@@ -42,24 +43,27 @@ class Job extends Model
     protected function getIsFavoritedAttribute() {
         $jobId = $this->id;
         $userId = Auth::user()->id ?? false;
+        
         if(!$userId)
         {
             return false;
         }
-        $favoritedJobs = favoritedJobs::where(
+
+        $jobs = favoritedJobs::where(
                 ['userId' => $userId, 'jobId' => $jobId]
         )->get();
 
-        if(count($favoritedJobs) == 0)
+        if(count($jobs) > 0)
         {
-            return false;
+            return true;
         } 
-        return true;
+
+        return false;
     }
 
-    protected function getCompanyLogoAttribute() {
-     return asset('storage/' . ($this->companyLogoImagePath ? $this->companyLogoImagePath : 'companiesLogos/default_logo.jpg'));
-    }
+    // protected function getCompanyLogoAttribute() {
+    //  return asset('storage/' . ($this->companyLogoImagePath ? $this->companyLogoImagePath : 'companiesLogos/default_logo.jpg'));
+    // }
 
     protected function getSalaryFormattedAttribute() {
         $amount = $this->salary;
@@ -84,7 +88,7 @@ class Job extends Model
         $location = request()->location;
         $tag = request()->tag;
         $employment_types = request()->employment_type ?? Job::select('employmentType')->get();
-        
+
         $query->where(function ($query) use($search_for) {
             $query->where('title', 'like', "%$search_for%")
                     ->orWhere('tags', 'like', "%$search_for%");

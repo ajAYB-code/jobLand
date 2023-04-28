@@ -55,4 +55,8 @@ class User extends Authenticatable
         $url = 'http://127.0.0.1:8000/reset_password?token=' . $token . '&email=' . $this->email;
         $this->notify(new resetPassword($url));
     }
+
+    public function favoritedJobs(){
+        return $this->belongsToMany(Job::class, 'favorited_jobs', 'userId', 'jobId');
+    }
 }

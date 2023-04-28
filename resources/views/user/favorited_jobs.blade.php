@@ -14,15 +14,12 @@
         <h4>My favorited jobs</h4>
         <p class="mb-5">Here you find the list of your favorited jobs</p>
 
-        {{-- Jobs table --}}
-        @php
-        $icon = 'trash';
-        $actionButtonClass = "removeFavoritedJobBtn";
-        $modalId = "removeFavoriteModal";
-        @endphp
-        <x-jobs-table :jobs="$jobs" :icon="$icon" :modalId="$modalId" :actionButtonClass="$actionButtonClass" class="table table-striped">
-            <x-slot name='table_header'>
-                <thead>
+
+        {{-- Favorited jobs table --}}
+
+        @if(count($jobs) > 0)
+        <table class="table table-striped">
+            <thead>
                     <tr>
                         <th>Company</th>
                         <th>Tags</th>
@@ -30,33 +27,25 @@
                         <th>Added date</th>
                         <th>Action</th>
                     </tr>
-                </thead>
-            </x-slot>
-        </x-jobs-table>
+            </thead>
+
+            <tbody>
+                @foreach($jobs as $job)
+                <x-jobs-table-row :job="$job">
+                    <x-slot name="actionButtons">
+                        <button class="btn favoriteJobBtn active" data-user-id="{{ Auth::user()->id }}" data-job-id="{{ $job->id }}">
+                            <i class="fa fa-star"></i>
+                        </button>            
+                    </x-slot>
+                </x-jobs-table-row>
+                @endforeach
+            </tbody>
+        </table>
+        @else
+        <h4 class="mt-5 pt-5 text-center" style="color: var(--color-primary-dark);">You didn't favorite any job yet!</h4>
+        @endif
 
     </div>
 </main>
-
-{{-- Modal --}}
-
-<x-modal :id="$modalId">
-
-    {{-- Header --}}
-    <x-slot name='header'>
-        <h6 class="modal-title">Unfavorite</h6>
-    </x-slot>
-
-    {{-- Body --}}
-    <x-slot name='body'>
-        <p>Are you sure you wan to remove this job from your favorites ?</p>
-    </x-slot>
-
-    {{-- Footer --}}
-    <x-slot name='footer'>
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary agreeRemoveFavorite" data-bs-dismiss="modal">Yes,remove</button>
-    </x-slot>
-
-</x-modal>
 
 @endsection

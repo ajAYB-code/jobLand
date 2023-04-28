@@ -23,7 +23,7 @@
         <p style="color: red;">{{$message}}</p>
         @enderror
         <div class="form-floating mb-4">
-            <input class="form-control" type="text" name="email" id="email" placeholder="email">
+            <input class="form-control" type="text" name="email" id="email" value="{{ old('email') }}" placeholder="email">
             <label for="email">Email</label>
             @error('email')
             <p style="color: red;">{{$message}}</p>
