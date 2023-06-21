@@ -13,7 +13,7 @@
            </div>
            <div>
                <h5 class="job-role">{{$job->title}}</h5>
-               <p class="company-name mb-0">{{$job->companyName}}</p>
+               <p class="company-name text-truncate mb-0">{{$job->companyName}}</p>
            </div>
           </div> 
        </td>

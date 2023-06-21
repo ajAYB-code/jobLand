@@ -20,7 +20,7 @@ class jobFactory extends Factory
             'companyName' => $this->faker->company(),
             'companyEmail' => $this->faker->unique()->email(),
             'jobDescription' => $this->faker->text(),
-            'employmentType' => 'full time',
+            'employmentType' => 'full-time',
             'salary' => $this->faker->randomNumber(5),
             'companyLogo' => $this->faker->imageUrl(300, 300, 'company'),
             'tags' => 'laravel, python, MVC'

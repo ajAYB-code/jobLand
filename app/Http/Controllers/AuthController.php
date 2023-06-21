@@ -27,6 +27,8 @@ class AuthController extends Controller
         }
 
         return redirect(route('login'))->withErrors(['formError' => 'Your data is not valid']);
+        return back()->withInput()
+                    ->withErrors(['formError' => 'Your data is not valid']);
     }
 
     public function logout() {

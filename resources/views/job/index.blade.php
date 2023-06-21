@@ -23,8 +23,11 @@
                 <!-- Filters -->
 
                 <div class="filters-container pt-3 pe-4 sticky-top">
-                    <h5 class="mb-4">Filter jobs</h5>
-                    <form action="/">
+                    <div class="mb-4 d-flex justify-content-between align-items-center">
+                        <h5>Filter jobs</h5>
+                        <a href="{{ route('home') }}" class="btn-link">clear filters</a>
+                    </div>
+                    <form id="filtersForm" action="{{ route('home') }}" method="GET">
                     <div class="search-container mb-2">
                             <div class="input-group">
                                 <input class="form-control" type="text" name="search_for"  value="{{request()->search_for}}" id="" placeholder="Company, skills, tag">
@@ -35,26 +38,51 @@
                         
                     </div>
                     <div>
-                       <button type="button" id="collapseToggleBtn" class="btn px-0" data-bs-toggle="collapse" data-bs-target="#specialtyCollapse">
+                       <button type="button" id="specialtyCollapseToggleBtn" class="btn px-0 w-100 text-start d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#specialtyCollapse">
                         <span>Employment type</span>
-                        <i class="ms-2 fa fa-chevron-down"></i>
+                        <i class="fa fa-chevron-down"></i>
                        </button>
-                       <ul class="collapse-menu list-unstyled collapse" id="specialtyCollapse">
-                        <li>
-                            <input type="checkbox" value="full-time" {{in_array('full-time', request()->employment_type ?? []) ? 'checked' : ''}} name="employment_type[]" id="">
-                            <label for="">Full time</label>
+                       <ul class="collapse-menu list-unstyled show" id="specialtyCollapse">
+                        <li class="form-check">
+                            <input type="checkbox" class="form-check-input" value="full-time" {{in_array('full-time', request()->employment_type ?? []) ? 'checked' : ''}} name="employment_type[]" id="">
+                            <label class="form-check-label" for="">Full time</label>
                         </li>
-                        <li>
-                            <input type="checkbox" value="remote" {{in_array('remote', request()->employment_type ?? []) ? 'checked' : ''}} name="employment_type[]" id="">
+                        <li class="form-check">
+                            <input type="checkbox" class="form-check-input" value="remote" {{in_array('remote', request()->employment_type ?? []) ? 'checked' : ''}} name="employment_type[]" id="">
                             <label for="">Remote</label>
                         </li>
-                        <li>
-                            <input type="checkbox" value="partial" {{in_array('partial', request()->employment_type ?? []) ? 'checked' : ''}} name="employment_type[]" id="">
+                        <li class="form-check">
+                            <input type="checkbox" class="form-check-input" value="partial" {{in_array('partial', request()->employment_type ?? []) ? 'checked' : ''}} name="employment_type[]" id="">
                             <label for="">Partial</label>
                         </li>
                        </ul>
                     </div>
-                        </form>
+                    <div>
+                        <button type="button" id="postDateCollapseToggleBtn" class="btn px-0 w-100 text-start d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#postDateCollapse">
+                         <span>Post date</span>
+                         <i class="fa fa-chevron-down"></i>
+                        </button>
+                        <ul class="collapse-menu list-unstyled show" id="postDateCollapse">
+                         <li class="form-check">
+                             <input type="radio" class="form-check-input" value="all_date" checked name="post_date" id="">
+                             <label class="form-check-label" for="">All date</label>
+                         </li>
+                         <li class="form-check">
+                             <input type="radio" class="form-check-input" value="last_day" {{request()->post_date == 'last_day' ? 'checked' : ''}} name="post_date" id="">
+                             <label class="form-check-label" for="">Last day</label>
+                         </li>
+                         <li class="form-check">
+                             <input type="radio" class="form-check-input" value="last_week"  {{request()->post_date == 'last_week' ? 'checked' : ''}} name="post_date" id="">
+                             <label for="">Last week</label>
+                         </li>
+                         <li class="form-check">
+                             <input type="radio" class="form-check-input" value="last_month"  {{request()->post_date == 'last_month' ? 'checked' : ''}} name="post_date" id="">
+                             <label for="">Last month</label>
+                         </li>
+                        </ul>
+                     </div>
+                     <button id="applyFiltersBtn" class="btn btn-sm btn-outline-primary" type="submit" style="display: none;">Apply filters</button>
+                    </form>
                 </div>
             </div>
 

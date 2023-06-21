@@ -2,6 +2,11 @@
 
 $(function (){
 
+  // Show/Hide apply filter button
+  $('#filtersForm').change(function (){
+    $('#applyFiltersBtn').show();
+  });
+
   /* Methods for handling favorite and unfavorite jobs */
   
   // From home page
@@ -16,8 +21,12 @@ $(function (){
    
     if($(this).hasClass('active') == true)
     {
+
+      // It's unfavorite
       removeFavorite(data);
     } else {
+
+      // It's favorite
       $(this).addClass('active');
       addFavorite(data);
     }
@@ -36,6 +45,7 @@ $(function (){
   // Favorite job AJAX
   
   function addFavorite(data){
+
     data.favoriteButton.addClass('active');
   
     $.ajax({
@@ -128,16 +138,7 @@ $(function (){
       $(`.favoriteJobBtn[data-job-id=${jobId}]`).addClass('active');
      }
   }
-  
-  /*  Home search filters */
-  
-  // Filter by checkboxes (employment_type)
-  
-  $("input[name='employment_type[]']").change(function() {
-    console.log($(this).parents('form').submit());
-  })
-  
-  
+    
   // Add click to jobs table rows
   
   $(function () {
