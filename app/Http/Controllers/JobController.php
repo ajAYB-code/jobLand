@@ -42,11 +42,8 @@ class JobController extends Controller
     }
 
     // Handle create job page
-    public function handleCreateJob(Request $request) {
 
-        // Check if there is a company logo input
-        // Other wise set it to null
-        // Because laravel will raise an excception when validating the data
+    public function create(Request $request) {
 
         $data = $request->validate(
             [
@@ -61,32 +58,66 @@ class JobController extends Controller
                'location' => ['required']
             ]
             );
+
        
-            // Store the company logo image and 
-            // Get it's path to store in the database
-            $logoImagePath = null;
             if($request->file('companyLogo'))
             {
-                $logoImagePath = $request->file('companyLogo')->store('companiesLogos');
+                $data['companyLogo'] = $request->file('companyLogo')->store('companiesLogos');
             }
 
-            // Create the job
-            Job::create(
-                [
-                    'userId' => Auth::user()->id,
-                    'title' => $request->title,
-                    'companyName' => $request->companyName,
-                    'companyEmail' => $request->companyEmail,
-                    'employmentType' => $request->employmentType,
-                    'salary' => $request->salary,
-                    'jobDescription' => $request->jobDescription,
-                    'companyLogoImagePath' =>  $logoImagePath,
-                    'tags' => $request->tags,
-                    'location' => $request->location
-                ]
-            );
+            $data['userId'] = Auth::user()->id;
+
+            Job::create($data);
 
             return redirect('/');
             
+    }
+
+    public function edit(Request $request){
+        $jobId = $request->jobId;
+        $job = Job::find($jobId);
+
+        return view('job.edit', [
+            'job' => $job
+        ]);
+    }
+
+    public function update(Request $request){
+        $data = $request->validate([
+            'title' => ['required'],
+            'companyName' => ['required'],
+            'companyEmail' => ['required', 'email'],
+            'employmentType' => [Rule::in(['full-time', 'remote', 'partial'])],
+            'jobDescription' => ['required'],
+            'salary' => [],
+            'companyLogo' => ['nullable', 'max:4000', 'mimes:png,jpg'],
+            'tags' => [new Tags],
+            'location' => ['required']
+        ]);
+
+        $job = Job::find($request->jobId);
+
+        // Delete old company logo image file
+
+        Storage::disk()->delete($job->companyLogo);
+
+        if($request->has('companyLogo'))
+        {
+            $data['companyLogo'] = $request->file('companyLogo')->store('companiesLogos');
+        }
+        
+
+        $job->forceFill($data);
+        $job->save();
+
+        return redirect(route('home'));
+    }
+
+    public function delete(Request $request) {
+        
+        $jobId = $request->jobId;
+        Job::find($jobId)->delete();
+    
+        return Response()->json();
     }
 }

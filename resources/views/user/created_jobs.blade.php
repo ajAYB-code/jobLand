@@ -14,46 +14,57 @@
         <h4>My jobs</h4>
         <p class="mb-5">Here you find the list of the created jobs</p>
 
-        {{-- Jobs table --}}
+        {{-- Favorited jobs table --}}
 
-        @php
-        $icon = 'trash';
-        $id = 'deleteJobModal';
-        $actionButtonClass = "deleteJobBtn";
-        @endphp
-
-        <x-jobs-table :jobs="$jobs" :modalId="$id" :icon="$icon" :actionButtonClass="$actionButtonClass" class="table table-striped">
-        <x-slot name='table_header'>
+        @if(count($jobs) > 0)
+        <table class="table table-striped">
             <thead>
-                <tr>
-                    <th>Company</th>
-                    <th>Tags</th>
-                    <th>Location</th>
-                    <th>Added date</th>
-                    <th>Action</th>
-                </tr>
+                    <tr>
+                        <th>Company</th>
+                        <th>Tags</th>
+                        <th>Location</th>
+                        <th>Added date</th>
+                        <th>Action</th>
+                    </tr>
             </thead>
-        </x-slot>
-    </x-jobs-table>
+
+            <tbody>
+                @foreach($jobs as $job)
+                <x-jobs-table-row :job="$job">
+                    <x-slot name="actionButtons">
+                        <a id="" class="editJob btn btn-success" href="{{ route('job.edit', ['jobId' => $job->id]) }}" data-job-id="{{ $job->id }}">
+                            <i class="fa fa-edit"></i>
+                        </a>            
+                        <button id="" class="deleteJob btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteJobModal" data-job-id="{{ $job->id }}">
+                            <i class="fa fa-trash"></i>
+                        </button>            
+                    </x-slot>
+                </x-jobs-table-row>
+                @endforeach
+            </tbody>
+        </table>
+        @else
+        <h4 class="mt-5 pt-5 text-center" style="color: var(--color-primary-dark);">You didn't create any job yet!</h4>
+        @endif
 
            
-        {{-- Modal --}}
-        <x-modal :id="$id">
 
-            {{-- Header --}}
+        <x-modal id="deleteJobModal">
+
+            
             <x-slot name='header'>
-                <h6 class="modal-title">Unfavorite</h6>
+                <h6 class="modal-title">Delete this job</h6>
             </x-slot>
         
-            {{-- Body --}}
+ 
             <x-slot name='body'>
-                <p>Are you sure you wan to remove this job from your favorites ?</p>
+                <p>Are you sure you wan to delete this job ?</p>
             </x-slot>
         
-            {{-- Footer --}}
+            
             <x-slot name='footer'>
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary agreeDeleteJob" data-bs-dismiss="modal">Yes,remove</button>
+                <button class="btn btn-primary agreeDeleteJob" data-bs-dismiss="modal">Yes, Delete</button>
             </x-slot>
         
         </x-modal>

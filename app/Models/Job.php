@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\VarDumper\VarDumper;
 
 class Job extends Model
 {
@@ -42,24 +43,27 @@ class Job extends Model
     protected function getIsFavoritedAttribute() {
         $jobId = $this->id;
         $userId = Auth::user()->id ?? false;
+        
         if(!$userId)
         {
             return false;
         }
-        $favoritedJobs = favoritedJobs::where(
+
+        $jobs = favoritedJobs::where(
                 ['userId' => $userId, 'jobId' => $jobId]
         )->get();
 
-        if(count($favoritedJobs) == 0)
+        if(count($jobs) > 0)
         {
-            return false;
+            return true;
         } 
-        return true;
+
+        return false;
     }
 
-    protected function getCompanyLogoAttribute() {
-     return asset('storage/' . ($this->companyLogoImagePath ? $this->companyLogoImagePath : 'companiesLogos/default_logo.jpg'));
-    }
+    // protected function getCompanyLogoAttribute() {
+    //  return asset('storage/' . ($this->companyLogoImagePath ? $this->companyLogoImagePath : 'companiesLogos/default_logo.jpg'));
+    // }
 
     protected function getSalaryFormattedAttribute() {
         $amount = $this->salary;
@@ -78,19 +82,53 @@ class Job extends Model
 
     public function scopeFilter($query){
 
-        // Filter jobs by (location, search_query, tags)
-        
-        $search_for = request()->search_for;
-        $location = request()->location;
-        $tag = request()->tag;
-        $employment_types = request()->employment_type ?? Job::select('employmentType')->get();
-        
-        $query->where(function ($query) use($search_for) {
-            $query->where('title', 'like', "%$search_for%")
-                    ->orWhere('tags', 'like', "%$search_for%");
-        })
-        ->where('tags', 'like', "%$tag%")
-        ->where('location', 'like', "%$location%")
-        ->whereIn('employmentType', $employment_types);
+        // Filter by searching title
+        if(request()->has('search_for'))
+        {
+            $query->where('title', 'LIKE', '%' . request()->search_for . '%');
+        }
+
+        // Filter by searching location
+        if(request()->has('location'))
+        {
+            $query->where('location', 'LIKE', request()->location);
+        }
+
+        // Filter by tags
+        if(request()->has('tag'))
+        {
+            $query->where('tags', 'LIKE', request()->tag);
+        }
+
+        // Filter by employment type (Remote, full time..)
+        if(request()->has('employment_type'))
+        {
+            $query->whereIn('employmentType', request()->employment_type);
+        }
+
+        // Filter by post date (last [day, month..])
+        if(request()->has('post_date'))
+        {
+            switch(request()->post_date)
+            {
+                case 'last_day': $query->lastDay(); break;
+                case 'last_week': $query->lastWeek(); break;
+                case 'last_month': $query->lastMonth(); break;
+            }
+        }
+
     }
+
+    public function scopeLastDay($query){
+        $query->whereBetween('created_at', [Carbon::now()->subDay(), Carbon::now()]);
+    }
+
+    public function scopeLastWeek($query){
+        $query->whereBetween('created_at', [Carbon::now()->subWeek(), Carbon::now()]);
+    }
+
+    public function scopeLastMonth($query){
+        $query->whereBetween('created_at', [Carbon::now()->subMonth(), Carbon::now()]);
+    }
+
 }

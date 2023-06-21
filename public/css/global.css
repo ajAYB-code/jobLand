@@ -131,7 +131,7 @@ table#jobsTable tr td p.job-post-date
 }
 
 /* Favorite job button */
-table#jobsTable button.favoriteJobBtn.active > i
+table button.favoriteJobBtn.active > i
 {
    color: rgb(248, 108, 15);
 }
