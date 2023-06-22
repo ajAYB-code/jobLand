@@ -38,27 +38,33 @@ Route::middleware('auth')->group(function () {
         /* Job crud */
 
         Route::controller(JobController::class)->group(function (){
-                Route::get('/jobs/create', 'showCreateJob')
-                        ->name('new_job');
-                Route::post('/jobs/create', 'create');
+                Route::name('job.')->group(function (){
+                        Route::get('/jobs/create', 'showCreateJob')
+                                ->name('create');
+                        Route::post('/jobs/create', 'create');
 
-                Route::get('/job/{jobId}/edit', 'edit')
-                        ->name('job.edit');        
-                Route::post('/job/{jobId}/edit', 'update');   
-                Route::post('/job/{jobId}/delete', 'delete');   
+                        Route::get('/job/{jobId}/edit', 'edit')
+                                ->name('edit');        
+                        Route::post('/job/{jobId}/edit', 'update')
+                                ->name('update');   
+                        Route::post('/job/{jobId}/delete', 'delete')
+                                ->name('delete');
+                });   
         });
       
         
         Route::get('/user/jobs/created', [RecruiterController::class, 'showCreatedJobs'])
-                ->name('user_created_jobs');
+                ->name('user-created-jobs.show');
 
         /* Favorite job */
 
         Route::controller(FavoriteJobController::class)->group(function (){
                 Route::get('/user/favorited_jobs', 'index')
-                        ->name('user_favorited_jobs');
-                Route::post('/user/jobs/favorited/add','addFavorite');
-                Route::post('/user/jobs/favorited/remove', 'removeFavorite');
+                        ->name('user-favorited-jobs.show');
+                Route::post('/user/jobs/favorited/add','addFavorite')
+                        ->name('user-favorited-jobs.add');
+                Route::post('/user/jobs/favorited/remove', 'removeFavorite')
+                        ->name('user-favorited-jobs.remove');
         });
 
         
@@ -67,12 +73,14 @@ Route::middleware('auth')->group(function () {
                 /* User account */
 
                 Route::get('/user/account', 'showAccount')
-                        ->name('user_account');
-                Route::post('/user/account', 'handleAccountInfoChange');
+                        ->name('user-account');
+                Route::post('/user/account', 'handleAccountInfoChange')
+                        ->name('user-account.update');
 
                 /* Apply to job */
 
-                Route::get('/jobs/{id}/apply', 'applyToJob');
+                Route::get('/jobs/{id}/apply', 'applyToJob')
+                        ->name('job.apply');
                 Route::post('/job/apply', 'applyToJobAjax');
         });
      
@@ -83,7 +91,7 @@ Route::controller(JobController::class)->group(function() {
         Route::get('/', 'index')
                 ->name('home');
         Route::get('/jobs/{id}', 'show')
-                ->name('show_job');
+                ->name('job.show');
 });
 
 

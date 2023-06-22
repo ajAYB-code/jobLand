@@ -7,6 +7,59 @@ $(function (){
     $('#applyFiltersBtn').show();
   });
 
+  // auto load jobs
+  $(window).scroll(function (){
+
+    // Check if the loading animation or part of it is visible in the viewport
+    const scrollTop = $(window).scrollTop();
+    const eleTop = $('.auto-load-jobs-animation').offset().top;
+    console.log(eleTop);
+    const windowHeight = $(window).height();
+
+    const isLoadingAnimationVisible = (eleTop - scrollTop) > 0 && (eleTop - scrollTop)  < windowHeight;
+
+    if(isLoadingAnimationVisible && !$('#jobsTable').hasClass('loading-jobs'))
+    {
+      
+      // Prevent mutliple loading at the same time
+      $('#jobsTable').addClass('loading-jobs');
+
+      let nextPage = parseInt($('#jobsTable').attr('data-next-jobs-page'));
+      $('#jobsTable').attr('data-next-jobs-page', ++nextPage);
+
+      // Prepare URL
+      let url = window.location.href;
+      url += url.endsWith('/') ? '?' : '&';
+      url += `page=${nextPage}`;
+
+      $.ajax({
+        type: 'GET',
+        url : url,
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        success: function (jobsHtml){
+
+          // jobsHtml is empty means no more pages
+          // Hide loading animation
+          if(jobsHtml == '')
+          {
+            $('.auto-load-jobs-animation').remove();
+            // Stop listening to the scroll event
+            $(window).off('scroll');
+          }
+
+          $('#jobsTable').append(jobsHtml);
+
+          $('#jobsTable').removeClass('loading-jobs');
+        },
+        error: function (error){
+          console.log(error);
+        },
+        processData: false,
+        contentType: false,
+      })
+    }
+  })
+
   /* Methods for handling favorite and unfavorite jobs */
   
   // From home page

@@ -20,12 +20,21 @@ class JobController extends Controller
 {
     // Show jobs
     public function index() {
-        $jobs = Job::all();
-        
+
+        $jobs = Job::filter()->paginate(10);
+
+        // For ajax request return jobs rows in HTML format
+        if(request()->ajax())
+        {
+            return view('job.auto-load-jobs', compact('jobs'))->render();
+        }
+
         return view('job.index', [
             'jobs' => $jobs
         ]);
     }
+
+    // Ifinite scroll of jobs
 
     public function show(Request $request){
         $jobId = $request->id;

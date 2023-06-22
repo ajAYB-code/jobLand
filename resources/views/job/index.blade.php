@@ -12,11 +12,7 @@
 <main>
     <div class="container mt-5 pt-5">
 
-        @php
-        $jobsCount = count($jobs);
-        @endphp
-
-        <h6 class="mb-3"><span style="color: var(--color-primary);">{{$jobsCount}}</span> {{$jobsCount > 1 ? 'jobs' : 'job'}} found</h6>
+        <h6 class="mb-3"><span id="jobsCount" style="color: var(--color-primary);">{{ $jobs->total() }}</span> {{ $jobs->total() > 1 ? 'jobs' : 'job'}} found</h6>
         <div class="row">
             <div class="col-3">
 
@@ -91,10 +87,10 @@
 
             {{-- Jobs table --}}
             
-        <table id="jobsTable" class="table table-borderless">
+        <table id="jobsTable" class="table table-borderless" data-next-jobs-page="2">
 
             <tbody>
-                @foreach($jobs as $job)
+            @foreach($jobs as $job)
 
                  <x-jobs-table-row :job="$job">
                     <x-slot name="actionButtons">
@@ -113,6 +109,36 @@
             @endforeach
             </tbody>
         </table>
+
+        {{-- Auto load loading animation --}}
+
+        <div class="text-center auto-load-jobs-animation py-3">
+            <svg version="1.1" id="L6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+                <rect fill="none" stroke="orange" stroke-width="4" x="25" y="25" width="50" height="50">
+                <animateTransform
+                    attributeName="transform"
+                    dur="0.5s"
+                    from="0 50 50"
+                    to="180 50 50"
+                    type="rotate"
+                    id="strokeBox"
+                    attributeType="XML"
+                    begin="rectBox.end"/>
+                </rect>
+                <rect x="27" y="27" fill="orange" width="46" height="50">
+                <animate
+                    attributeName="height"
+                    dur="1.3s"
+                    attributeType="XML"
+                    from="50" 
+                    to="0"
+                    id="rectBox" 
+                    fill="freeze"
+                    begin="0s;strokeBox.end"/>
+                </rect>
+            </svg>
+        </div>
 
             </div>
         </div>

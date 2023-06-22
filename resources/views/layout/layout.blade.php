@@ -88,7 +88,7 @@
 
     {{-- Footer --}}
 
-    <footer class="mt-5">
+    <footer id="footer" class="mt-5">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-4">
@@ -100,7 +100,7 @@
                 <div class="col-4">
                     <div class="links d-flex gap-5">
                         <a href="{{ route('home') }}" class="{{request()->is('/') ? 'active' : ''}} link text-decoration-none ">Jobs</a>
-                        <a href="/jobs/create" class="{{request()->is('jobs/create') ? 'active' : ''}} link text-decoration-none">Upload job</a>
+                        <a href="/jobs/create" class="{{request()->is('jobs/create') ? 'active' : ''}} link text-decoration-none">Create job</a>
                         <a href="{{ route('about') }}" class="{{request()->is('about') ? 'active' : ''}} link text-decoration-none">About us</a>
                     </div>
                 </div>
