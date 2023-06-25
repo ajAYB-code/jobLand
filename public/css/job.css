@@ -22,14 +22,14 @@
     height: 100%;
     object-fit: contain;
 }
-.job-container .job-content #applyToJobBtn
+.job-container .job-content .applyToJobBtn
 {
     border: none;
     background-color: var(--color-primary);
     color: white;
     box-shadow: none;
 }
-.job-container .job-content #applyToJobBtn:is(:hover, :active)
+.job-container .job-content .applyToJobBtn:is(:hover, :active)
 {
     background-color: rgb(233, 151, 0);
 }

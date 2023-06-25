@@ -23,6 +23,12 @@ class AuthController extends Controller
 
         if(Auth::attempt($formData))
         {
+
+            if($request->has('return_to'))
+            {
+                return redirect($request->input('return_to'));
+            }
+
             return redirect()->intended(route('home'));
         }
 

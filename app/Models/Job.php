@@ -23,11 +23,11 @@ class Job extends Model
         'salary',
         'jobDescription',
         'employmentType',
-        'companyLogoImagePath',
+        'companyLogo',
         'tags',
         'location'
     ];    
-
+    
     protected function getTagsAttribute($value) {
          $tags = explode(',', $value);
          foreach($tags as $tag)

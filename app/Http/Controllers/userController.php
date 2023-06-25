@@ -83,23 +83,14 @@ class userController
     |          Apply to job        |
     --------------------------------
     */
-    
-    // This is when the user tries to send cv without
-    // Authenticating, So we redirect the request to 
-    // /jobs/{id}/apply which is under 'auth' middleware
-    // and then we redirect it back to /job/{id}
 
     public function applyToJob(Request $request){
-     $jobId = $request->id;
-     return redirect("/jobs/$jobId");
-    }
-
-    public function applyToJobAjax(Request $request){
      $data = $request->validate(
         [
             'cvFile' => ['mimes:pdf,docx,doc']
         ]
         );
+
         $cvFile = $data['cvFile'];
 
         // Get user email and fullName

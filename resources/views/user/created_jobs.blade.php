@@ -12,14 +12,14 @@
 <main class="mt-5 min-h-100">
     <div class="container">
         <h4>My jobs</h4>
-        <p class="mb-5">Here you find the list of the created jobs</p>
+        <p class="mb-5">Here you find the list of your created jobs</p>
 
         {{-- Favorited jobs table --}}
 
         @if(count($jobs) > 0)
-        <table class="table table-striped">
+        <table class="table datatable table-striped">
             <thead>
-                    <tr>
+                     <tr>
                         <th>Company</th>
                         <th>Tags</th>
                         <th>Location</th>
@@ -32,10 +32,13 @@
                 @foreach($jobs as $job)
                 <x-jobs-table-row :job="$job">
                     <x-slot name="actionButtons">
-                        <a id="" class="editJob btn btn-success" href="{{ route('job.edit', ['jobId' => $job->id]) }}" data-job-id="{{ $job->id }}">
+                        <a id="" class="viewJob btn btn-sm btn-primary" href="{{ route('job.show', ['jobId' => $job->id]) }}" data-job-id="{{ $job->id }}">
+                            <i class="fa fa-eye"></i>
+                        </a>            
+                        <a id="" class="editJob btn btn-sm btn-success" href="{{ route('job.edit', ['jobId' => $job->id]) }}" data-job-id="{{ $job->id }}">
                             <i class="fa fa-edit"></i>
                         </a>            
-                        <button id="" class="deleteJob btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteJobModal" data-job-id="{{ $job->id }}">
+                        <button id="" class="deleteJob btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteJobModal" data-job-id="{{ $job->id }}">
                             <i class="fa fa-trash"></i>
                         </button>            
                     </x-slot>

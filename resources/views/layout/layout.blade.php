@@ -9,7 +9,7 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/global.css')}}">
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     {{-- Custom page CSS --}}
     @yield('pageStyle')
 
@@ -59,9 +59,9 @@
                             <i class="fa fa-user"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
-                            <a href="{{ route('user_account') }}" class="dropdown-item">Account</a>
-                            <a href="{{ route('user_created_jobs') }}" class="dropdown-item">My jobs</a>
-                            <a href="{{ route('user_favorited_jobs') }}" class="dropdown-item">Favorites</a>
+                            <a href="{{ route('user-account') }}" class="dropdown-item">Account</a>
+                            <a href="{{ route('user-created-jobs.show') }}" class="dropdown-item">My jobs</a>
+                            <a href="{{ route('user-favorited-jobs.show') }}" class="dropdown-item">Favorites</a>
                             <a href="{{ route('logout') }}" class="dropdown-item">Logout</a>
                         </div>
                     </div>
@@ -107,6 +107,7 @@
             </div>
         </div>
     </footer>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="{{asset('js/main.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

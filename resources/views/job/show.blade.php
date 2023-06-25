@@ -13,7 +13,7 @@
             <div class="col-2">
                 <div class="company border-1 p-2">
                     <div class="logo">
-                        <img src="{{$job->companyLogo}}" alt="" style="height: 100%;">
+                        <img src="{{ asset('/storage/' . ($job->companyLogo ?? 'companiesLogos/default_logo.jpg')) }}" alt="" style="height: 100%;">
                     </div>
                     <h5 class="text-center text-truncate">{{$job->companyName}}</h5>
                 </div>
@@ -35,7 +35,11 @@
                         <h5 class="mb-2">Description</h5>
                         <p class="description">{{$job->jobDescription}}</p>
                     </div>
-                    <a id="applyToJobBtn" class="btn" {{!Auth::check() ? "href=/jobs/$job->id/apply" : 'data-bs-toggle=modal'}} data-bs-target='#uploadCvModal'>Apply to this job</a>
+                    @auth
+                    <button class="btn applyToJobBtn" data-bs-toggle="modal" data-bs-target='#uploadCvModal'>Apply to this job</button>
+                    @else
+                    <a class="btn applyToJobBtn" href="{{ route('login', ['return_to' => request()->fullUrl()] ) }}">Apply to this job</a>
+                    @endauth
                </div>
             </div>
         </div>

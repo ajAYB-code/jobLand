@@ -79,9 +79,8 @@ Route::middleware('auth')->group(function () {
 
                 /* Apply to job */
 
-                Route::get('/jobs/{id}/apply', 'applyToJob')
+                Route::post('/job/apply', 'applyToJob')
                         ->name('job.apply');
-                Route::post('/job/apply', 'applyToJobAjax');
         });
      
 });
@@ -90,7 +89,7 @@ Route::middleware('auth')->group(function () {
 Route::controller(JobController::class)->group(function() {
         Route::get('/', 'index')
                 ->name('home');
-        Route::get('/jobs/{id}', 'show')
+        Route::get('/job/{jobId}', 'show')
                 ->name('job.show');
 });
 

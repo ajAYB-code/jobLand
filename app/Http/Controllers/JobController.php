@@ -37,7 +37,7 @@ class JobController extends Controller
     // Ifinite scroll of jobs
 
     public function show(Request $request){
-        $jobId = $request->id;
+        $jobId = $request->jobId;
         $job = Job::find($jobId);
         return view('job.show', [
             'job' => $job
@@ -67,9 +67,8 @@ class JobController extends Controller
                'location' => ['required']
             ]
             );
-
        
-            if($request->file('companyLogo'))
+            if($request->has('companyLogo'))
             {
                 $data['companyLogo'] = $request->file('companyLogo')->store('companiesLogos');
             }

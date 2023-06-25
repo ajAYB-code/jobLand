@@ -2,14 +2,14 @@
 @props(['job'])
 
 
-<tr data-href = "/jobs/{{$job->id}}">
+<tr data-href = "{{ route('job.show', ['jobId' => $job->id]) }}">
 
     {{-- Company logo, name | job title  --}}
 
        <td class="px-4">
           <div class="d-flex align-items-center">
            <div class="company-logo me-2">
-               <img src="{{ asset('/storage' . $job->companyLogo) }}" height="30px" alt="">
+               <img src="{{ asset('/storage/' . ($job->companyLogo ?? 'companiesLogos/default_logo.jpg')) }}" height="30px" alt="">
            </div>
            <div>
                <h5 class="job-role">{{$job->title}}</h5>

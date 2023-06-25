@@ -2,6 +2,10 @@
 
 $(function (){
 
+  /* Initialization */
+  // Datatable
+  $('.datatable').DataTable({});
+
   // Show/Hide apply filter button
   $('#filtersForm').change(function (){
     $('#applyFiltersBtn').show();
@@ -64,7 +68,7 @@ $(function (){
   
   // From home page
 
-  $('.favoriteJobBtn').click(function() {
+  $(document).on('click', '.favoriteJobBtn', function() {
 
     const data = {
       favoriteButton: $(this),
@@ -84,7 +88,6 @@ $(function (){
       addFavorite(data);
     }
   });
-  
   
   // From favorites page
   
@@ -140,9 +143,6 @@ $(function (){
     })
   }
   
-  
-  
-  
   /* Methods for handling deleting user created jobs */
   
   $('.deleteJob').click(function() {
@@ -193,18 +193,14 @@ $(function (){
   }
     
   // Add click to jobs table rows
-  
-  $(function () {
-    $('#jobsTable tr').click(function(e) {
-       if(!e.target.matches(':is(.favoriteJobBtn, .favoriteJobBtn *)'))
-       {
-        const href = $(this).attr('data-href');
-        window.location.assign(href);
-       }
-    })
-  })
-  
-  
+
+  $(document).on('click', '#jobsTable tr', function(e) {
+    if(!e.target.matches(':is(.favoriteJobBtn, .favoriteJobBtn *)'))
+    {
+     const href = $(this).attr('data-href');
+     window.location.assign(href);
+    }
+ })  
   
   // Apply to job
   
@@ -227,7 +223,7 @@ $(function (){
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
       data: formData,
       success: function (data) {
-        $('#uploadCvModal .modal-body').html("<h4 class='text-center text-success'>Email sent successfully</h4>");
+        $('#uploadCvModal .modal-body').html("<h4 class='text-center text-success'>You have successfully applied to the job</h4>");
       },
       error: function (err) {
         console.log(err);

@@ -18,7 +18,7 @@
         {{-- Favorited jobs table --}}
 
         @if(count($jobs) > 0)
-        <table class="table table-striped">
+        <table class="table datatable table-striped">
             <thead>
                     <tr>
                         <th>Company</th>
@@ -33,6 +33,9 @@
                 @foreach($jobs as $job)
                 <x-jobs-table-row :job="$job">
                     <x-slot name="actionButtons">
+                        <a id="" class="viewJob btn btn-sm btn-primary" href="{{ route('job.show', ['jobId' => $job->id]) }}" data-job-id="{{ $job->id }}">
+                            <i class="fa fa-eye"></i>
+                        </a> 
                         <button class="btn favoriteJobBtn active" data-user-id="{{ Auth::user()->id }}" data-job-id="{{ $job->id }}">
                             <i class="fa fa-star"></i>
                         </button>            
