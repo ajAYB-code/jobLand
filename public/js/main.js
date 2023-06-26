@@ -202,12 +202,18 @@ $(function (){
     }
  })  
   
-  // Apply to job
-  
-  $('.sendCvBtn').click(applyToJob);
+  // Store the html of the upload CV bootstrap modal
+  const applyJobModalHtml = $('#uploadCvModal').html();
+
+  $('.applyToJobBtn').click(function (){
+    $('#uploadCvModal').html(applyJobModalHtml);
+  })
+
+  // Apply to job by sending the CV
+  $(document).on('click', '.sendCvBtn', applyToJob)
   
   function applyToJob(e) {
-  
+
     // Collects form data
     const formData = new FormData();
     formData.append('jobId', $(this).attr('data-job-id'));

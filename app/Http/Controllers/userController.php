@@ -97,12 +97,13 @@ class userController
         $fullName = Auth::user()->fullName;
         $userEmail = Auth::user()->email;
 
-        // Company email
-        $jobId = $request->jobId;
-        $companyEmail = Job::find($jobId)->companyEmail;
+        // Job
+        $job = Job::find($request->jobId);
+        $companyEmail = $job->companyEmail;
+        $jobTitle = $job->title;
 
         // Email message
-        Mail::send('email.applyJob', ['fullName' => $fullName, 'userEmail' => $userEmail], function($message) use($cvFile, $companyEmail) {
+        Mail::send('email.applyJob', ['jobTitle' => $jobTitle, 'userEmail' => $userEmail], function($message) use($cvFile, $companyEmail) {
               $message->to($companyEmail)->subject('apply to job');
               $message->attach($cvFile->getRealPath(), array(
                                             'as' => 'CV',
